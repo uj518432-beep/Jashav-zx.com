@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Umesh Business Ideas Hub - Discover profitable business ideas, startup opportunities, and digital products.">
+<title>Umesh Business Ideas Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy: #050d1f;
+  --navy-2: #0a1628;
+  --navy-3: #0f2040;
+  --blue: #1a3a6b;
+  --blue-bright: #2563eb;
+  --purple: #7c3aed;
+  --purple-light: #a855f7;
+  --violet: #6d28d9;
+  --glass: rgba(255,255,255,0.05);
+  --glass-border: rgba(255,255,255,0.1);
+  --glass-hover: rgba(255,255,255,0.08);
+  --text: #f0f4ff;
+  --text-muted: #8899bb;
+  --text-dim: #4a5f7a;
+  --white: #ffffff;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --accent: #06b6d4;
+  --gradient-1: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #2563eb 100%);
+  --gradient-2: linear-gradient(135deg, #7c3aed, #2563eb);
+  --gradient-3: linear-gradient(135deg, #06b6d4, #7c3aed);
+  --shadow: 0 25px 50px rgba(0,0,0,0.5);
+  --shadow-sm: 0 4px 20px rgba(0,0,0,0.3);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="light"] {
+  --navy: #f0f4ff;
+  --navy-2: #e8eeff;
+  --navy-3: #dde6ff;
+  --glass: rgba(0,0,0,0.03);
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-hover: rgba(0,0,0,0.05);
+  --text: #0f172a;
+  --text-muted: #475569;
+  --text-dim: #94a3b8;
+  --shadow: 0 25px 50px rgba(99,102,241,0.15);
+  --shadow-sm: 0 4px 20px rgba(99,102,241,0.1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+
+/* ============ UTILITY ============ */
+.page { display: none; }
+.page.active { display: block; }
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+.gradient-text {
+  background: var(--gradient-2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.glass-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 24px; border-radius: 10px; border: none;
+  font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 500;
+  cursor: pointer; transition: var(--transition); text-decoration: none;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--gradient-2); color: white;
+  box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.5); }
+.btn-outline {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--glass-border);
+}
+.btn-outline:hover { background: var(--glass-hover); border-color: var(--purple-light); }
+.btn-ghost { background: transparent; color: var(--text-muted); padding: 10px 16px; }
+.btn-ghost:hover { color: var(--text); background: var(--glass); }
+.badge {
+  display: inline-block; padding: 4px 10px; border-radius: 20px;
+  font-size: 12px; font-weight: 500;
+}
+.badge-easy { background: rgba(16,185,129,0.2); color: #10b981; }
+.badge-medium { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.badge-hard { background: rgba(239,68,68,0.2); color: #ef4444; }
+.badge-high { background: rgba(124,58,237,0.2); color: #a855f7; }
+
+/* ============ NOISE TEXTURE ============ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.4;
+}
+
+/* ============ PAGE 1: LOGIN ============ */
+#loginPage {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.login-bg {
+  position: fixed; inset: 0; z-index: -1;
+  background: radial-gradient(ellipse at 20% 50%, rgba(124,58,237,0.2) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(37,99,235,0.2) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(6,182,212,0.1) 0%, transparent 50%),
+              var(--navy);
+}
+.orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(80px); animation: orbFloat 8s ease-in-out infinite;
+}
+.orb-1 { width: 600px; height: 600px; background: rgba(124,58,237,0.15); top: -200px; left: -200px; }
+.orb-2 { width: 500px; height: 500px; background: rgba(37,99,235,0.12); bottom: -150px; right: -150px; animation-delay: -4s; }
+.orb-3 { width: 300px; height: 300px; background: rgba(6,182,212,0.1); top: 50%; left: 50%; transform: translate(-50%,-50%); animation-delay: -2s; }
+@keyframes orbFloat {
+  0%,100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+.login-wrapper {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: 100vh; width: 100%; position: relative; z-index: 1;
+}
+.login-left {
+  display: flex; flex-direction: column;
+  justify-content: center; padding: 60px;
+  background: linear-gradient(135deg, rgba(124,58,237,0.15) 0%, rgba(37,99,235,0.1) 100%);
+  border-right: 1px solid var(--glass-border);
+}
+.login-brand { display: flex; align-items: center; gap: 16px; margin-bottom: 60px; }
+.brand-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: var(--gradient-2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; box-shadow: 0 8px 25px rgba(124,58,237,0.5);
+}
+.brand-name { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 800; line-height: 1.1; }
+.brand-name span { display: block; font-size: 13px; font-weight: 400; color: var(--text-muted); }
+.login-headline { font-family: 'Syne', sans-serif; font-size: 48px; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+.login-sub { font-size: 17px; color: var(--text-muted); line-height: 1.7; margin-bottom: 48px; max-width: 400px; }
+.features-list { display: flex; flex-direction: column; gap: 16px; }
+.feature-item { display: flex; align-items: center; gap: 14px; }
+.feature-dot {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.feature-text { font-size: 15px; color: var(--text-muted); }
+.feature-text strong { color: var(--text); display: block; font-size: 14px; }
+
+.login-right {
+  display: flex; align-items: center; justify-content: center;
+  padding: 60px 80px;
+}
+.login-card { width: 100%; max-width: 440px; }
+.login-card h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 8px; }
+.login-card p { color: var(--text-muted); margin-bottom: 36px; font-size: 15px; }
+
+.form-group { margin-bottom: 20px; }
+.form-label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--text-muted); }
+.form-input {
+  width: 100%; padding: 14px 18px; border-radius: var(--radius-sm);
+  background: var(--glass); border: 1px solid var(--glass-border);
+  color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px;
+  transition: var(--transition); outline: none;
+}
+.form-input:focus { border-color: var(--purple); background: var(--glass-hover); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+.form-input::placeholder { color: var(--text-dim); }
+.input-icon-wrap { position: relative; }
+.input-icon-wrap .form-input { padding-left: 48px; }
+.input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-size: 18px; }
+.password-toggle { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: var(--text-dim); cursor: pointer; font-size: 18px; transition: color 0.2s; }
+.password-toggle:hover { color: var(--purple-light); }
+
+.form-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.checkbox-label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; color: var(--text-muted); }
+.checkbox-label input[type="checkbox"] { display: none; }
+.custom-check {
+  width: 18px; height: 18px; border-radius: 5px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: var(--transition);
+}
+.checkbox-label input:checked + .custom-check { background: var(--purple); border-color: var(--purple); }
+.custom-check::after { content: '✓'; font-size: 11px; color: white; display: none; }
+.checkbox-label input:checked + .custom-check::after { display: block; }
+.forgot-link { font-size: 14px; color: var(--purple-light); text-decoration: none; transition: color 0.2s; }
+.forgot-link:hover { color: var(--accent); }
+
+.btn-login { width: 100%; padding: 15px; font-size: 16px; font-weight: 600; margin-bottom: 16px; border-radius: var(--radius-sm); }
+.btn-google {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 500;
+  background: var(--glass); border: 1px solid var(--glass-border); color: var(--text);
+  border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center;
+  justify-content: center; gap: 10px; transition: var(--transition); font-family: 'DM Sans', sans-serif;
+  margin-bottom: 24px;
+}
+.btn-google:hover { background: var(--glass-hover); border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+.google-icon { width: 20px; height: 20px; }
+
+.divider { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+.divider-line { flex: 1; height: 1px; background: var(--glass-border); }
+.divider-text { font-size: 13px; color: var(--text-dim); }
+
+.signup-prompt { text-align: center; font-size: 14px; color: var(--text-muted); }
+.signup-link { color: var(--purple-light); text-decoration: none; font-weight: 600; transition: color 0.2s; cursor: pointer; }
+.signup-link:hover { color: var(--accent); }
+
+.error-msg { color: #ef4444; font-size: 13px; margin-top: 6px; display: none; }
+.success-toast {
+  position: fixed; top: 24px; right: 24px; z-index: 9999;
+  background: var(--success); color: white; padding: 14px 24px; border-radius: 10px;
+  font-size: 15px; font-weight: 500; transform: translateX(120%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 30px rgba(16,185,129,0.4);
+}
+.success-toast.show { transform: translateX(0); }
+
+/* ============ TOPBAR ============ */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(5,13,31,0.85);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 0 32px; height: 68px;
+  display: flex; align-items: center; gap: 24px;
+}
+[data-theme="light"] .topbar { background: rgba(240,244,255,0.85); }
+.topbar-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+.topbar-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--gradient-2); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.topbar-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 17px; color: var(--text); }
+.topbar-nav { display: flex; align-items: center; gap: 4px; margin-left: 8px; }
+.nav-link {
+  padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500;
+  color: var(--text-muted); text-decoration: none; transition: var(--transition); cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { color: var(--text); background: var(--glass); }
+.topbar-search {
+  flex: 1; max-width: 380px; margin-left: 16px; position: relative;
+}
+.topbar-search input {
+  width: 100%; padding: 10px 16px 10px 42px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  border-radius: 10px; color: var(--text); font-family: 'DM Sans', sans-serif;
+  font-size: 14px; outline: none; transition: var(--transition);
+}
+.topbar-search input:focus { border-color: var(--purple); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+.topbar-search input::placeholder { color: var(--text-dim); }
+.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-dim); font-size: 16px; }
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.dark-toggle {
+  width: 38px; height: 38px; border-radius: 10px; background: var(--glass);
+  border: 1px solid var(--glass-border); display: flex; align-items: center;
+  justify-content: center; cursor: pointer; font-size: 18px; transition: var(--transition);
+}
+.dark-toggle:hover { background: var(--glass-hover); border-color: var(--purple-light); }
+.user-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--gradient-2); display: flex; align-items: center;
+  justify-content: center; font-weight: 700; font-size: 15px; cursor: pointer;
+  border: 2px solid transparent; transition: var(--transition);
+}
+.user-avatar:hover { border-color: var(--purple-light); }
+
+/* ============ PAGE 2: DASHBOARD ============ */
+#dashPage { padding-top: 0; }
+
+.hero {
+  padding: 80px 32px 60px;
+  background: radial-gradient(ellipse at 30% 50%, rgba(124,58,237,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 20%, rgba(37,99,235,0.1) 0%, transparent 50%);
+  text-align: center; position: relative; overflow: hidden;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--glass); border: 1px solid var(--glass-border);
+  padding: 6px 16px; border-radius: 20px; font-size: 13px;
+  color: var(--text-muted); margin-bottom: 24px;
+}
+.hero-eyebrow .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(36px,5vw,64px); font-weight: 800; line-height: 1.05; margin-bottom: 20px; }
+.hero p { font-size: 18px; color: var(--text-muted); max-width: 580px; margin: 0 auto 36px; line-height: 1.7; }
+.hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 40px; justify-content: center; margin-top: 56px; flex-wrap: wrap; }
+.stat-item { text-align: center; }
+.stat-value { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; }
+.stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+.section-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; }
+.section-sub { color: var(--text-muted); font-size: 14px; margin-top: 4px; }
+
+/* Category Filter */
+.cat-filters {
+  display: flex; gap: 8px; flex-wrap: wrap; padding: 0 32px;
+  margin-bottom: 36px; overflow-x: auto; padding-bottom: 4px;
+}
+.cat-btn {
+  padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: var(--transition); border: 1px solid var(--glass-border);
+  background: var(--glass); color: var(--text-muted); white-space: nowrap;
+  font-family: 'DM Sans', sans-serif;
+}
+.cat-btn:hover { border-color: var(--purple); color: var(--purple-light); }
+.cat-btn.active { background: var(--gradient-2); color: white; border-color: transparent; }
+
+/* Ideas Grid */
+.ideas-section { padding: 0 32px 60px; }
+.ideas-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px;
+}
+.idea-card {
+  padding: 24px; border-radius: var(--radius); background: var(--glass);
+  border: 1px solid var(--glass-border);
+  transition: var(--transition); cursor: pointer; position: relative; overflow: hidden;
+}
+.idea-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: var(--gradient-2); opacity: 0; transition: opacity 0.3s;
+}
+.idea-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.4); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+.idea-card:hover::before { opacity: 0.04; }
+.card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+.card-icon-wrap {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
+}
+.card-badges { display: flex; flex-direction: column; gap: 4px; align-items: flex-end; }
+.card-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.card-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 18px; }
+.card-meta {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px;
+}
+.meta-item { background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 8px 12px; }
+.meta-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.meta-value { font-size: 14px; font-weight: 600; color: var(--text); }
+.card-footer { display: flex; justify-content: space-between; align-items: center; }
+.profit-bar { flex: 1; height: 4px; background: var(--glass-border); border-radius: 2px; margin-right: 12px; overflow: hidden; }
+.profit-fill { height: 100%; background: var(--gradient-2); border-radius: 2px; transition: width 0.8s ease; }
+.profit-label { font-size: 12px; color: var(--text-muted); white-space: nowrap; }
+
+/* ============ PAGE 3: RESULTS ============ */
+#resultsPage { padding-bottom: 80px; }
+
+.results-hero {
+  padding: 60px 32px 40px;
+  background: radial-gradient(ellipse at 80% 30%, rgba(6,182,212,0.15) 0%, transparent 50%),
+              radial-gradient(ellipse at 20% 70%, rgba(124,58,237,0.15) 0%, transparent 50%);
+}
+.results-hero h1 { font-family: 'Syne', sans-serif; font-size: 42px; font-weight: 800; margin-bottom: 12px; }
+.results-hero p { color: var(--text-muted); font-size: 17px; max-width: 600px; line-height: 1.7; }
+
+/* Steps */
+.steps-section { padding: 40px 32px; }
+.steps-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.step-card {
+  padding: 24px; border-radius: var(--radius); background: var(--glass);
+  border: 1px solid var(--glass-border); transition: var(--transition); position: relative;
+}
+.step-card:hover { transform: translateY(-3px); border-color: rgba(124,58,237,0.3); }
+.step-num {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--gradient-2); display: flex; align-items: center;
+  justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800;
+  font-size: 16px; color: white; margin-bottom: 14px;
+  box-shadow: 0 4px 15px rgba(124,58,237,0.4);
+}
+.step-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.step-connector {
+  display: none;
+}
+
+/* Metrics */
+.metrics-section { padding: 20px 32px 40px; }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.metric-card {
+  padding: 24px; border-radius: var(--radius); background: var(--glass);
+  border: 1px solid var(--glass-border); transition: var(--transition);
+}
+.metric-card:hover { transform: translateY(-3px); }
+.metric-icon { font-size: 28px; margin-bottom: 12px; }
+.metric-value { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+.metric-label { font-size: 13px; color: var(--text-muted); }
+.metric-change { font-size: 12px; color: var(--success); margin-top: 8px; display: flex; align-items: center; gap: 4px; }
+.metric-change.down { color: var(--danger); }
+
+/* Charts */
+.charts-section { padding: 0 32px 40px; }
+.charts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; }
+.chart-card {
+  padding: 24px; border-radius: var(--radius); background: var(--glass);
+  border: 1px solid var(--glass-border);
+}
+.chart-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.chart-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+.chart-canvas { width: 100% !important; max-height: 220px; }
+
+/* Success Indicators */
+.success-section { padding: 0 32px 40px; }
+.success-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+.success-card {
+  padding: 24px; border-radius: var(--radius); background: var(--glass);
+  border: 1px solid var(--glass-border); display: flex; align-items: flex-start; gap: 16px;
+  transition: var(--transition);
+}
+.success-card:hover { border-color: rgba(16,185,129,0.4); transform: translateY(-3px); }
+.success-icon {
+  width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+  background: rgba(16,185,129,0.15); display: flex; align-items: center;
+  justify-content: center; font-size: 20px;
+}
+.success-title { font-weight: 600; margin-bottom: 4px; font-size: 15px; }
+.success-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+/* Implementation Modal */
+.impl-modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(5,13,31,0.9); backdrop-filter: blur(10px);
+  display: none; align-items: center; justify-content: center; padding: 24px;
+}
+.impl-modal-overlay.open { display: flex; }
+.impl-modal {
+  background: var(--navy-2); border: 1px solid var(--glass-border);
+  border-radius: 20px; width: 100%; max-width: 600px;
+  max-height: 90vh; overflow-y: auto; padding: 32px;
+  animation: slideUp 0.3s ease;
+}
+@keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-close { float: right; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; padding: 6px 10px; cursor: pointer; color: var(--text); font-size: 18px; transition: var(--transition); }
+.modal-close:hover { background: var(--glass-hover); }
+.modal-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--glass); border: 1px solid var(--glass-border); padding: 5px 14px; border-radius: 20px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+.modal-title { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+.modal-desc { color: var(--text-muted); line-height: 1.7; margin-bottom: 24px; }
+.modal-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.modal-info-item { background: var(--glass); border: 1px solid var(--glass-border); padding: 14px; border-radius: 10px; }
+.modal-info-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.modal-info-value { font-weight: 600; font-size: 15px; }
+.modal-steps-title { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 16px; }
+.modal-step-list { display: flex; flex-direction: column; gap: 12px; }
+.modal-step { display: flex; gap: 14px; }
+.modal-step-num { width: 28px; height: 28px; border-radius: 8px; background: var(--gradient-2); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: white; flex-shrink: 0; margin-top: 2px; }
+.modal-step-content strong { display: block; margin-bottom: 2px; font-size: 15px; }
+.modal-step-content span { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.modal-footer { display: flex; gap: 12px; margin-top: 28px; }
+.modal-footer .btn { flex: 1; justify-content: center; }
+
+/* ============ TESTIMONIALS ============ */
+.testimonials-section { padding: 60px 32px; background: radial-gradient(ellipse at 50% 50%, rgba(124,58,237,0.08) 0%, transparent 70%); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.testimonial-card { padding: 24px; border-radius: var(--radius); background: var(--glass); border: 1px solid var(--glass-border); }
+.testimonial-stars { color: var(--warning); font-size: 14px; margin-bottom: 12px; }
+.testimonial-text { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.author-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-2); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; }
+.author-name { font-weight: 600; font-size: 14px; }
+.author-role { font-size: 12px; color: var(--text-dim); }
+
+/* ============ FAQ ============ */
+.faq-section { padding: 40px 32px 60px; max-width: 800px; margin: 0 auto; }
+.faq-item { border: 1px solid var(--glass-border); border-radius: var(--radius-sm); margin-bottom: 10px; overflow: hidden; }
+.faq-q { padding: 18px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 500; transition: background 0.2s; }
+.faq-q:hover { background: var(--glass); }
+.faq-arrow { font-size: 20px; transition: transform 0.3s; color: var(--text-muted); flex-shrink: 0; }
+.faq-item.open .faq-arrow { transform: rotate(180deg); color: var(--purple-light); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; }
+.faq-a-inner { padding: 0 20px 18px; color: var(--text-muted); font-size: 15px; line-height: 1.7; }
+.faq-item.open .faq-a { max-height: 200px; }
+
+/* ============ CONTACT FORM ============ */
+.contact-section { padding: 60px 32px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+.contact-info h2 { font-family: 'Syne', sans-serif; font-size: 32px; font-weight: 800; margin-bottom: 12px; }
+.contact-info p { color: var(--text-muted); line-height: 1.7; margin-bottom: 28px; }
+.contact-items { display: flex; flex-direction: column; gap: 16px; }
+.contact-item { display: flex; align-items: center; gap: 14px; }
+.contact-icon { width: 42px; height: 42px; border-radius: 10px; background: var(--glass); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.contact-text span { display: block; font-size: 12px; color: var(--text-dim); }
+.contact-text strong { font-size: 14px; }
+.contact-form-wrap { padding: 32px; border-radius: var(--radius); background: var(--glass); border: 1px solid var(--glass-border); }
+.contact-form-wrap h3 { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+textarea.form-input { resize: vertical; min-height: 120px; padding-top: 14px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+/* ============ BLOG ============ */
+.blog-section { padding: 60px 32px; }
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+.blog-card { border-radius: var(--radius); background: var(--glass); border: 1px solid var(--glass-border); overflow: hidden; transition: var(--transition); cursor: pointer; }
+.blog-card:hover { transform: translateY(-4px); border-color: rgba(124,58,237,0.3); }
+.blog-thumb { height: 160px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+.blog-body { padding: 20px; }
+.blog-tag { font-size: 12px; color: var(--purple-light); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.blog-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+.blog-excerpt { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+.blog-meta { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-dim); }
+
+/* ============ FOOTER ============ */
+.footer {
+  background: var(--navy-2); border-top: 1px solid var(--glass-border);
+  padding: 56px 32px 32px;
+}
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
+.footer-brand p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin: 16px 0 24px; max-width: 280px; }
+.social-links { display: flex; gap: 10px; }
+.social-btn {
+  width: 36px; height: 36px; border-radius: 9px; background: var(--glass);
+  border: 1px solid var(--glass-border); display: flex; align-items: center;
+  justify-content: center; font-size: 16px; cursor: pointer; transition: var(--transition); text-decoration: none; color: var(--text-muted);
+}
+.social-btn:hover { background: var(--gradient-2); border-color: transparent; color: white; transform: translateY(-2px); }
+.footer-col h4 { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 18px; }
+.footer-links { display: flex; flex-direction: column; gap: 10px; }
+.footer-link { color: var(--text-muted); font-size: 14px; text-decoration: none; transition: color 0.2s; cursor: pointer; }
+.footer-link:hover { color: var(--purple-light); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; border-top: 1px solid var(--glass-border); }
+.footer-bottom p { font-size: 13px; color: var(--text-dim); }
+.footer-bottom-links { display: flex; gap: 20px; }
+.footer-bottom-links a { font-size: 13px; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+.footer-bottom-links a:hover { color: var(--text-muted); }
+
+/* ============ LIVE CHAT ============ */
+.chat-widget {
+  position: fixed; bottom: 28px; right: 28px; z-index: 500;
+}
+.chat-btn {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--gradient-2); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; box-shadow: 0 8px 25px rgba(124,58,237,0.5);
+  transition: var(--transition); position: relative;
+}
+.chat-btn:hover { transform: scale(1.1); }
+.chat-badge {
+  position: absolute; top: -2px; right: -2px;
+  width: 18px; height: 18px; border-radius: 50%; background: var(--success);
+  border: 2px solid var(--navy); display: flex; align-items: center;
+  justify-content: center; font-size: 10px; color: white; font-weight: 700;
+}
+.chat-box {
+  position: absolute; bottom: 70px; right: 0;
+  width: 320px; border-radius: 16px; overflow: hidden;
+  background: var(--navy-2); border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow); transform: scale(0.8) translateY(20px);
+  transform-origin: bottom right; opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); pointer-events: none;
+}
+.chat-box.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+.chat-header { padding: 16px 20px; background: var(--gradient-2); display: flex; justify-content: space-between; align-items: center; }
+.chat-header span { font-weight: 700; color: white; font-size: 15px; }
+.chat-close { background: rgba(255,255,255,0.2); border: none; border-radius: 6px; padding: 4px 8px; cursor: pointer; color: white; font-size: 16px; }
+.chat-msgs { padding: 16px; min-height: 160px; display: flex; flex-direction: column; gap: 10px; }
+.chat-msg { padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; max-width: 85%; }
+.chat-msg.bot { background: var(--glass); border: 1px solid var(--glass-border); align-self: flex-start; }
+.chat-msg.user { background: var(--gradient-2); color: white; align-self: flex-end; }
+.chat-input-row { padding: 12px 16px; border-top: 1px solid var(--glass-border); display: flex; gap: 8px; }
+.chat-input { flex: 1; padding: 10px 14px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; }
+.chat-send { padding: 10px 14px; background: var(--gradient-2); border: none; border-radius: 8px; cursor: pointer; color: white; font-size: 16px; transition: var(--transition); }
+.chat-send:hover { transform: scale(1.05); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 1024px) {
+  .login-wrapper { grid-template-columns: 1fr; }
+  .login-left { display: none; }
+  .login-right { padding: 40px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .topbar { padding: 0 16px; gap: 12px; }
+  .topbar-nav { display: none; }
+  .topbar-search { max-width: 200px; }
+  .hero { padding: 50px 16px 40px; }
+  .ideas-section, .results-hero, .steps-section, .metrics-section, .charts-section, .success-section, .testimonials-section, .contact-section, .blog-section, .footer { padding-left: 16px; padding-right: 16px; }
+  .cat-filters { padding-left: 16px; padding-right: 16px; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .modal-info-grid, .form-row-2 { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  .hero-stats { gap: 24px; }
+  .login-right { padding: 24px; }
+}
+@media (max-width: 480px) {
+  .ideas-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 30px; }
+  .hero-btns { flex-direction: column; align-items: center; }
+}
+
+/* Animations */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.5s ease forwards; }
+.fade-in-1 { animation-delay: 0.1s; opacity: 0; }
+.fade-in-2 { animation-delay: 0.2s; opacity: 0; }
+.fade-in-3 { animation-delay: 0.3s; opacity: 0; }
+.fade-in-4 { animation-delay: 0.4s; opacity: 0; }
+
+/* Number counter animation */
+@keyframes countUp { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<!-- ======== TOAST ======== -->
+<div class="success-toast" id="toast">✅ Login successful! Welcome back.</div>
+
+<!-- ======== PAGE 1: LOGIN ======== -->
+<div id="loginPage" class="page active">
+  <div class="login-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="login-wrapper">
+    <!-- Left -->
+    <div class="login-left">
+      <div class="login-brand">
+        <div class="brand-icon">💡</div>
+        <div class="brand-name">
+          Umesh Business Ideas Hub
+          <span>Your Business Growth Partner</span>
+        </div>
+      </div>
+      <h1 class="login-headline">Turn Ideas Into <span class="gradient-text">Profitable Ventures</span></h1>
+      <p class="login-sub">Discover 100+ curated business ideas with step-by-step implementation guides, market analysis, and growth strategies.</p>
+      <div class="features-list">
+        <div class="feature-item">
+          <div class="feature-dot">🚀</div>
+          <div class="feature-text">
+            <strong>500+ Business Ideas</strong>
+            Across 10 high-growth categories
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot">📊</div>
+          <div class="feature-text">
+            <strong>Analytics Dashboard</strong>
+            Track revenue, growth & performance
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot">🤖</div>
+          <div class="feature-text">
+            <strong>AI-Powered Insights</strong>
+            Smart recommendations for your goals
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-dot">🌍</div>
+          <div class="feature-text">
+            <strong>Global Community</strong>
+            50,000+ entrepreneurs worldwide
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="login-right">
+      <div class="login-card">
+        <h2 id="formTitle">Welcome back 👋</h2>
+        <p id="formSubtitle">Sign in to access your business dashboard</p>
+
+        <!-- Login Form -->
+        <div id="loginForm">
+          <div class="form-group">
+            <label class="form-label">Email address</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">✉️</span>
+              <input type="email" id="loginEmail" class="form-input" placeholder="you@example.com">
+            </div>
+            <div class="error-msg" id="emailError">Please enter a valid email address</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="loginPass" class="form-input" placeholder="Enter your password">
+              <span class="password-toggle" onclick="togglePass()" id="passToggle">👁️</span>
+            </div>
+            <div class="error-msg" id="passError">Password must be at least 6 characters</div>
+          </div>
+          <div class="form-row">
+            <label class="checkbox-label">
+              <input type="checkbox" id="rememberMe">
+              <span class="custom-check"></span>
+              Remember me
+            </label>
+            <a href="#" class="forgot-link">Forgot password?</a>
+          </div>
+          <button class="btn btn-primary btn-login" onclick="doLogin()">
+            <span>Sign In</span> →
+          </button>
+          <div class="divider"><div class="divider-line"></div><span class="divider-text">or continue with</span><div class="divider-line"></div></div>
+          <button class="btn-google" onclick="doLogin()">
+            <svg class="google-icon" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+            Continue with Google
+          </button>
+          <p class="signup-prompt">Don't have an account? <span class="signup-link" onclick="switchToSignup()">Create one free →</span></p>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupForm" style="display:none">
+          <div class="form-row-2" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input" placeholder="Umesh">
+            </div>
+            <div class="form-group" style="margin-bottom:0">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input" placeholder="Kumar">
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:16px">
+            <label class="form-label">Email address</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">✉️</span>
+              <input type="email" class="form-input" placeholder="you@example.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">🔒</span>
+              <input type="password" class="form-input" placeholder="Create a strong password">
+            </div>
+          </div>
+          <button class="btn btn-primary btn-login" onclick="doLogin()">
+            <span>Create Free Account</span> →
+          </button>
+          <p class="signup-prompt">Already have an account? <span class="signup-link" onclick="switchToLogin()">Sign in →</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== TOPBAR (shared) ======== -->
+<div id="mainTopbar" style="display:none">
+  <div class="topbar">
+    <a class="topbar-brand" onclick="showPage('dash')">
+      <div class="topbar-icon">💡</div>
+      <span class="topbar-name">Umesh Hub</span>
+    </a>
+    <nav class="topbar-nav">
+      <span class="nav-link active" onclick="showPage('dash');setNav(this)">Dashboard</span>
+      <span class="nav-link" onclick="showPage('results');setNav(this)">Analytics</span>
+      <span class="nav-link" onclick="scrollToSection('blog')">Blog</span>
+      <span class="nav-link" onclick="scrollToSection('contact')">Contact</span>
+    </nav>
+    <div class="topbar-search">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search business ideas..." id="searchInput" oninput="filterIdeas(this.value)">
+    </div>
+    <div class="topbar-actions">
+      <button class="dark-toggle" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">🌙</button>
+      <div class="user-avatar" title="Profile">U</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PAGE 2: DASHBOARD ======== -->
+<div id="dashPage" class="page">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow"><span class="dot"></span> 500+ Curated Business Ideas</div>
+    <h1 class="fade-in fade-in-1">Discover Your Next<br><span class="gradient-text">Successful Business</span></h1>
+    <p class="fade-in fade-in-2">Explore profitable business opportunities and learn how to build them step by step. From zero to revenue.</p>
+    <div class="hero-btns fade-in fade-in-3">
+      <button class="btn btn-primary" onclick="scrollToSection('ideas')">Explore Ideas →</button>
+      <button class="btn btn-outline" onclick="showPage('results')">📊 View Analytics</button>
+    </div>
+    <div class="hero-stats fade-in fade-in-4">
+      <div class="stat-item"><div class="stat-value gradient-text" data-target="500">500+</div><div class="stat-label">Business Ideas</div></div>
+      <div class="stat-item"><div class="stat-value gradient-text">50K+</div><div class="stat-label">Entrepreneurs</div></div>
+      <div class="stat-item"><div class="stat-value gradient-text">$2.4M</div><div class="stat-label">Revenue Generated</div></div>
+      <div class="stat-item"><div class="stat-value gradient-text">98%</div><div class="stat-label">Success Rate</div></div>
+    </div>
+  </section>
+
+  <!-- Category Filters -->
+  <div class="cat-filters" id="catFilters">
+    <button class="cat-btn active" onclick="filterCat('all',this)">🌟 All Categories</button>
+    <button class="cat-btn" onclick="filterCat('software',this)">💻 Software Dev</button>
+    <button class="cat-btn" onclick="filterCat('web',this)">🌐 Web Dev</button>
+    <button class="cat-btn" onclick="filterCat('data',this)">📊 Data Analytics</button>
+    <button class="cat-btn" onclick="filterCat('ai',this)">🤖 AI Business</button>
+    <button class="cat-btn" onclick="filterCat('marketing',this)">📣 Digital Marketing</button>
+    <button class="cat-btn" onclick="filterCat('ecommerce',this)">🛒 E-Commerce</button>
+    <button class="cat-btn" onclick="filterCat('freelance',this)">🎨 Freelancing</button>
+    <button class="cat-btn" onclick="filterCat('startup',this)">🚀 Startup Ideas</button>
+    <button class="cat-btn" onclick="filterCat('cyber',this)">🔐 Cyber Security</button>
+    <button class="cat-btn" onclick="filterCat('cloud',this)">☁️ Cloud Services</button>
+  </div>
+
+  <!-- Ideas Grid -->
+  <section class="ideas-section" id="ideas">
+    <div class="section-header">
+      <div>
+        <div class="section-title">Business Ideas <span class="gradient-text" id="ideasCount">(40)</span></div>
+        <div class="section-sub">Click any card to see full implementation guide</div>
+      </div>
+      <button class="btn btn-outline" onclick="showPage('results')">📈 View Results Dashboard</button>
+    </div>
+    <div class="ideas-grid" id="ideasGrid"></div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div><div class="section-title">Success <span class="gradient-text">Stories</span></div><div class="section-sub">Real entrepreneurs, real results</div></div>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"I launched my SaaS product in just 3 months following the step-by-step guide. Now generating $8K MRR!"</p>
+          <div class="testimonial-author"><div class="author-avatar">R</div><div><div class="author-name">Rahul Sharma</div><div class="author-role">SaaS Founder, Mumbai</div></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"The AI business ideas section helped me start an AI content agency. Crossed ₹5L revenue in first quarter!"</p>
+          <div class="testimonial-author"><div class="author-avatar">P</div><div><div class="author-name">Priya Nair</div><div class="author-role">AI Agency Owner, Bangalore</div></div></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">★★★★★</div>
+          <p class="testimonial-text">"Best platform for business ideas. The analytics dashboard is incredible. Went from zero to $15K in 6 months."</p>
+          <div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Arjun Mehta</div><div class="author-role">E-Commerce Entrepreneur</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog -->
+  <section class="blog-section" id="blog">
+    <div class="section-header">
+      <div><div class="section-title">Latest <span class="gradient-text">Insights</span></div><div class="section-sub">Tips, strategies and business knowledge</div></div>
+      <button class="btn btn-outline">View All Posts →</button>
+    </div>
+    <div class="blog-grid">
+      <div class="blog-card"><div class="blog-thumb" style="background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(37,99,235,0.3))">🚀</div><div class="blog-body"><div class="blog-tag">Startup</div><div class="blog-title">10 SaaS Ideas You Can Build This Weekend</div><div class="blog-excerpt">Discover proven SaaS business models with low competition and high demand in today's market.</div><div class="blog-meta"><span>📅 June 2025</span><span>⏱ 8 min read</span></div></div></div>
+      <div class="blog-card"><div class="blog-thumb" style="background:linear-gradient(135deg,rgba(6,182,212,0.3),rgba(124,58,237,0.3))">🤖</div><div class="blog-body"><div class="blog-tag">AI Business</div><div class="blog-title">How to Make $10K/Month With AI Tools</div><div class="blog-excerpt">A complete guide to building an AI-powered business from scratch without coding skills.</div><div class="blog-meta"><span>📅 May 2025</span><span>⏱ 12 min read</span></div></div></div>
+      <div class="blog-card"><div class="blog-thumb" style="background:linear-gradient(135deg,rgba(16,185,129,0.3),rgba(37,99,235,0.3))">📊</div><div class="blog-body"><div class="blog-tag">Data Analytics</div><div class="blog-title">Turn Data Skills Into a Consulting Business</div><div class="blog-excerpt">Learn how to package your analytics skills into a high-ticket consulting offer companies will pay for.</div><div class="blog-meta"><span>📅 May 2025</span><span>⏱ 10 min read</span></div></div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="section-header" style="margin-bottom:24px"><div><div class="section-title">Frequently Asked <span class="gradient-text">Questions</span></div></div></div>
+    <div id="faqList">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How do I choose the right business idea?</span><span class="faq-arrow">⌄</span></div><div class="faq-a"><div class="faq-a-inner">Start by evaluating your skills, available capital, and time commitment. Filter ideas by difficulty level and investment required. Our platform shows profit potential and time-to-launch for each idea to help you make an informed decision.</div></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Do I need technical skills to start most of these businesses?</span><span class="faq-arrow">⌄</span></div><div class="faq-a"><div class="faq-a-inner">Not at all! Many ideas like Digital Marketing, E-Commerce (Dropshipping), and Content Writing require zero technical skills. Each card clearly shows the difficulty level so you can find the perfect match for your background.</div></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>What's the minimum investment needed to start?</span><span class="faq-arrow">⌄</span></div><div class="faq-a"><div class="faq-a-inner">Some ideas like Freelancing and Content Writing can be started with $0. Others like SaaS Development may require $500-$5,000 for tools, hosting, and marketing. We display investment ranges clearly on every card.</div></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>How long does it take to see results?</span><span class="faq-arrow">⌄</span></div><div class="faq-a"><div class="faq-a-inner">Freelancing and Digital Marketing can generate income within 2-4 weeks. SaaS and App Development typically take 3-6 months. E-Commerce businesses usually break even within 1-3 months with the right strategy.</div></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)"><span>Is the platform free to use?</span><span class="faq-arrow">⌄</span></div><div class="faq-a"><div class="faq-a-inner">Yes! Basic access is completely free. Premium membership unlocks advanced analytics, personalized AI recommendations, community access, and detailed implementation roadmaps for each business idea.</div></div></div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact-section" id="contact">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2>Get in <span class="gradient-text">Touch</span></h2>
+        <p>Have questions about any business idea? Want personalized advice? Our team of expert entrepreneurs is here to help you succeed.</p>
+        <div class="contact-items">
+          <div class="contact-item"><div class="contact-icon">📧</div><div class="contact-text"><span>Email us at</span><strong>hello@umeshhub.com</strong></div></div>
+          <div class="contact-item"><div class="contact-icon">📞</div><div class="contact-text"><span>Call us</span><strong>+91 98765 43210</strong></div></div>
+          <div class="contact-item"><div class="contact-icon">📍</div><div class="contact-text"><span>Location</span><strong>Bangalore, India</strong></div></div>
+        </div>
+      </div>
+      <div class="contact-form-wrap">
+        <h3>Send a Message</h3>
+        <div class="form-row-2">
+          <div class="form-group"><label class="form-label">Name</label><input class="form-input" placeholder="Your name"></div>
+          <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" placeholder="your@email.com"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Subject</label><input class="form-input" placeholder="How can we help?"></div>
+        <div class="form-group"><label class="form-label">Message</label><textarea class="form-input">
+</textarea></div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center">Send Message →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="login-brand"><div class="brand-icon">💡</div><div class="brand-name">Umesh Business Ideas Hub<span>Your Business Growth Partner</span></div></div>
+        <p>Helping entrepreneurs discover, build and scale profitable businesses through curated ideas and step-by-step guides.</p>
+        <div class="social-links">
+          <a class="social-btn" href="#">𝕏</a>
+          <a class="social-btn" href="#">in</a>
+          <a class="social-btn" href="#">▶</a>
+          <a class="social-btn" href="#">📸</a>
+        </div>
+      </div>
+      <div class="footer-col"><h4>Categories</h4><div class="footer-links"><span class="footer-link">💻 Software Dev</span><span class="footer-link">🤖 AI Business</span><span class="footer-link">📊 Data Analytics</span><span class="footer-link">🛒 E-Commerce</span></div></div>
+      <div class="footer-col"><h4>Resources</h4><div class="footer-links"><span class="footer-link">Blog</span><span class="footer-link">Guides</span><span class="footer-link">Case Studies</span><span class="footer-link">Templates</span></div></div>
+      <div class="footer-col"><h4>Company</h4><div class="footer-links"><span class="footer-link">About Us</span><span class="footer-link">Careers</span><span class="footer-link">Privacy Policy</span><span class="footer-link">Terms of Service</span></div></div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Umesh Business Ideas Hub. All rights reserved.</p>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======== PAGE 3: RESULTS ======== -->
+<div id="resultsPage" class="page">
+  <section class="results-hero">
+    <div class="hero-eyebrow"><span class="dot"></span> Live Analytics Dashboard</div>
+    <h1>How To <span class="gradient-text">Build & Grow</span> Your Business</h1>
+    <p>A proven 8-step framework used by 50,000+ entrepreneurs to launch and scale profitable businesses worldwide.</p>
+  </section>
+
+  <!-- Steps -->
+  <section class="steps-section">
+    <div class="section-header"><div><div class="section-title">8-Step <span class="gradient-text">Launch Framework</span></div><div class="section-sub">Your roadmap from idea to profitable business</div></div></div>
+    <div class="steps-grid" id="stepsGrid"></div>
+  </section>
+
+  <!-- Metrics -->
+  <section class="metrics-section">
+    <div class="section-header"><div><div class="section-title">Business <span class="gradient-text">Performance Metrics</span></div><div class="section-sub">Real-time KPIs for your business</div></div></div>
+    <div class="metrics-grid" id="metricsGrid"></div>
+  </section>
+
+  <!-- Charts -->
+  <section class="charts-section">
+    <div class="section-header"><div><div class="section-title">Growth <span class="gradient-text">Analytics</span></div></div></div>
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="chart-title">Revenue Growth</div>
+        <div class="chart-sub">Monthly revenue over the past 12 months</div>
+        <canvas id="revenueChart" class="chart-canvas"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Customer Acquisition</div>
+        <div class="chart-sub">New customers per month</div>
+        <canvas id="customerChart" class="chart-canvas"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Monthly Sales by Category</div>
+        <div class="chart-sub">Revenue distribution across business types</div>
+        <canvas id="salesChart" class="chart-canvas"></canvas>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Conversion Rate Trend</div>
+        <div class="chart-sub">Visitor to customer conversion %</div>
+        <canvas id="conversionChart" class="chart-canvas"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Indicators -->
+  <section class="success-section">
+    <div class="section-header"><div><div class="section-title">Success <span class="gradient-text">Indicators</span></div></div></div>
+    <div class="success-grid">
+      <div class="success-card"><div class="success-icon">💰</div><div><div class="success-title">Positive ROI</div><div class="success-desc">Achieve 3-10x return on investment within the first year using proven strategies.</div></div></div>
+      <div class="success-card"><div class="success-icon">📈</div><div><div class="success-title">Increased Customers</div><div class="success-desc">Scale from 0 to 1,000+ customers through targeted marketing and retention strategies.</div></div></div>
+      <div class="success-card"><div class="success-icon">🌍</div><div><div class="success-title">Market Expansion</div><div class="success-desc">Grow from local to national to global markets with the right expansion playbook.</div></div></div>
+      <div class="success-card"><div class="success-icon">🚀</div><div><div class="success-title">Business Growth</div><div class="success-desc">Achieve month-over-month growth of 20%+ by implementing data-driven decisions.</div></div></div>
+    </div>
+  </section>
+
+  <!-- Footer repeated -->
+  <footer class="footer">
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <p>© 2025 Umesh Business Ideas Hub. All rights reserved.</p>
+      <div class="footer-bottom-links"><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ======== IMPLEMENTATION MODAL ======== -->
+<div class="impl-modal-overlay" id="ideaModal">
+  <div class="impl-modal" id="modalContent">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<!-- ======== LIVE CHAT ======== -->
+<div class="chat-widget" id="chatWidget" style="display:none">
+  <div class="chat-box" id="chatBox">
+    <div class="chat-header">
+      <span>💬 Live Support</span>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="chat-msg bot">👋 Hi! I'm here to help you find the perfect business idea. What are you interested in?</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" placeholder="Ask anything..." onkeyup="chatEnter(event)">
+      <button class="chat-send" onclick="sendChat()">➤</button>
+    </div>
+  </div>
+  <button class="chat-btn" onclick="toggleChat()">
+    💬
+    <span class="chat-badge">1</span>
+  </button>
+</div>
+
+<script>
+// ============ DATA ============
+const businessIdeas = [
+  // Software
+  { id:1, cat:'software', icon:'⚙️', color:'linear-gradient(135deg,#1e3a8a22,#7c3aed22)', name:'SaaS Platform', desc:'Build a cloud-based software solution for a specific business niche. Recurring revenue model with high scalability.', investment:'$2,000–$10,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$50K/mo', time:'4–6 months', profitPct:85 },
+  { id:2, cat:'software', icon:'🤝', color:'linear-gradient(135deg,#06439822,#1e3a8a22)', name:'CRM Software', desc:'Develop customer relationship management software for SMBs. High demand across all industries.', investment:'$3,000–$15,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$3K–$30K/mo', time:'5–8 months', profitPct:75 },
+  { id:3, cat:'software', icon:'🤖', color:'linear-gradient(135deg,#7c3aed22,#06b6d422)', name:'AI Chatbot', desc:'Create AI-powered chatbots for customer support automation. Massive demand from businesses of all sizes.', investment:'$500–$3,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$2K–$20K/mo', time:'2–3 months', profitPct:70 },
+  { id:4, cat:'software', icon:'📱', color:'linear-gradient(135deg,#06b6d422,#7c3aed22)', name:'Mobile App Development', desc:'Build custom mobile apps for businesses or launch your own app on iOS/Android stores.', investment:'$1,000–$8,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$2K–$25K/mo', time:'3–6 months', profitPct:65 },
+  // Web
+  { id:5, cat:'web', icon:'💼', color:'linear-gradient(135deg,#06b6d422,#1e3a8a22)', name:'Portfolio Websites', desc:'Create stunning portfolio websites for professionals and businesses. Low investment, quick turnaround.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$1K–$8K/mo', time:'1–2 weeks', profitPct:55 },
+  { id:6, cat:'web', icon:'🛍️', color:'linear-gradient(135deg,#10b98122,#06b6d422)', name:'E-Commerce Stores', desc:'Design and build online stores for clients using Shopify, WooCommerce, or custom solutions.', investment:'$200–$2,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$2K–$15K/mo', time:'1–2 months', profitPct:68 },
+  { id:7, cat:'web', icon:'🌐', color:'linear-gradient(135deg,#1e3a8a22,#06b6d422)', name:'Business Websites', desc:'Develop professional websites for local businesses, restaurants, and service providers.', investment:'$0–$1,000', difficulty:'Easy', diffBadge:'badge-easy', profit:'$1.5K–$10K/mo', time:'2–4 weeks', profitPct:60 },
+  { id:8, cat:'web', icon:'✍️', color:'linear-gradient(135deg,#7c3aed22,#10b98122)', name:'Blogging Platforms', desc:'Create and monetize niche blogs through ads, affiliates, and sponsored content.', investment:'$100–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$500–$10K/mo', time:'3–6 months', profitPct:50 },
+  // Data
+  { id:9, cat:'data', icon:'📊', color:'linear-gradient(135deg,#f59e0b22,#06b6d422)', name:'Dashboard Creation', desc:'Build business intelligence dashboards for companies to visualize their key metrics.', investment:'$0–$1,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$2K–$15K/mo', time:'1–2 months', profitPct:72 },
+  { id:10, cat:'data', icon:'📋', color:'linear-gradient(135deg,#06b6d422,#7c3aed22)', name:'Business Reports', desc:'Provide data analysis and reporting services for SMBs and corporations.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$1K–$8K/mo', time:'1–2 weeks', profitPct:58 },
+  { id:11, cat:'data', icon:'📈', color:'linear-gradient(135deg,#10b98122,#1e3a8a22)', name:'Data Visualization', desc:'Turn raw data into compelling visual stories for businesses and research firms.', investment:'$0–$500', difficulty:'Medium', diffBadge:'badge-medium', profit:'$2K–$12K/mo', time:'2–4 weeks', profitPct:65 },
+  { id:12, cat:'data', icon:'🧠', color:'linear-gradient(135deg,#7c3aed22,#f59e0b22)', name:'BI Solutions', desc:'Implement Business Intelligence solutions using Power BI, Tableau, or Looker.', investment:'$500–$2,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$3K–$20K/mo', time:'2–3 months', profitPct:78 },
+  // AI
+  { id:13, cat:'ai', icon:'⚡', color:'linear-gradient(135deg,#7c3aed22,#06b6d422)', name:'AI Tools', desc:'Build and sell niche AI tools for specific industries like real estate, healthcare, or legal.', investment:'$500–$3,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$3K–$30K/mo', time:'2–4 months', profitPct:82 },
+  { id:14, cat:'ai', icon:'🔄', color:'linear-gradient(135deg,#06b6d422,#10b98122)', name:'AI Automation', desc:'Automate business workflows using AI for companies. High ticket B2B service.', investment:'$200–$2,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$3K–$25K/mo', time:'1–2 months', profitPct:80 },
+  { id:15, cat:'ai', icon:'🗣️', color:'linear-gradient(135deg,#1e3a8a22,#7c3aed22)', name:'AI Assistants', desc:'Build custom AI assistants and copilots for businesses. Massive enterprise demand.', investment:'$1,000–$5,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$40K/mo', time:'3–5 months', profitPct:85 },
+  { id:16, cat:'ai', icon:'✍️', color:'linear-gradient(135deg,#7c3aed22,#f59e0b22)', name:'AI Content Creation', desc:'Offer AI-powered content creation services for marketing agencies and brands.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$2K–$15K/mo', time:'1–2 weeks', profitPct:70 },
+  // Marketing
+  { id:17, cat:'marketing', icon:'🔍', color:'linear-gradient(135deg,#10b98122,#06b6d422)', name:'SEO Agency', desc:'Help businesses rank on Google and drive organic traffic. Highly recurring revenue model.', investment:'$0–$1,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$3K–$20K/mo', time:'1–2 months', profitPct:72 },
+  { id:18, cat:'marketing', icon:'📱', color:'linear-gradient(135deg,#f59e0b22,#ef444422)', name:'Social Media Marketing', desc:'Manage social accounts and run paid ads for businesses. High demand from local businesses.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$2K–$12K/mo', time:'2–4 weeks', profitPct:62 },
+  { id:19, cat:'marketing', icon:'📝', color:'linear-gradient(135deg,#7c3aed22,#1e3a8a22)', name:'Content Marketing', desc:'Create and distribute valuable content to help businesses attract and retain customers.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$1.5K–$10K/mo', time:'1–2 months', profitPct:55 },
+  { id:20, cat:'marketing', icon:'📧', color:'linear-gradient(135deg,#06b6d422,#10b98122)', name:'Email Marketing', desc:'Build and manage email campaigns for businesses. Highest ROI of all marketing channels.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$1K–$8K/mo', time:'2–4 weeks', profitPct:58 },
+  // Ecommerce
+  { id:21, cat:'ecommerce', icon:'📦', color:'linear-gradient(135deg,#f59e0b22,#06b6d422)', name:'Dropshipping', desc:'Sell products online without holding inventory. Low risk, scalable business model.', investment:'$100–$1,000', difficulty:'Easy', diffBadge:'badge-easy', profit:'$1K–$10K/mo', time:'2–4 weeks', profitPct:52 },
+  { id:22, cat:'ecommerce', icon:'🖨️', color:'linear-gradient(135deg,#7c3aed22,#f59e0b22)', name:'Print On Demand', desc:'Design and sell custom merchandise without inventory. Perfect for creators.', investment:'$0–$500', difficulty:'Easy', diffBadge:'badge-easy', profit:'$500–$5K/mo', time:'1–2 weeks', profitPct:45 },
+  { id:23, cat:'ecommerce', icon:'🛒', color:'linear-gradient(135deg,#f59e0b22,#10b98122)', name:'Amazon FBA Store', desc:'Sell products on Amazon using Fulfillment by Amazon. Access to 300M+ customers.', investment:'$2,000–$10,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$2K–$20K/mo', time:'2–4 months', profitPct:65 },
+  { id:24, cat:'ecommerce', icon:'🏪', color:'linear-gradient(135deg,#10b98122,#7c3aed22)', name:'Shopify Store', desc:'Build your own brand and sell through Shopify. Full control over your brand and margins.', investment:'$500–$5,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$1K–$15K/mo', time:'1–3 months', profitPct:60 },
+  // Freelance
+  { id:25, cat:'freelance', icon:'🎨', color:'linear-gradient(135deg,#f59e0b22,#7c3aed22)', name:'Graphic Design', desc:'Offer logo design, branding, and visual content creation to businesses globally.', investment:'$0–$500', difficulty:'Medium', diffBadge:'badge-medium', profit:'$1K–$8K/mo', time:'1–2 weeks', profitPct:55 },
+  { id:26, cat:'freelance', icon:'💻', color:'linear-gradient(135deg,#1e3a8a22,#06b6d422)', name:'Programming', desc:'Freelance software development for startups and businesses. Premium hourly rates.', investment:'$0–$500', difficulty:'Medium', diffBadge:'badge-medium', profit:'$3K–$15K/mo', time:'1–2 weeks', profitPct:72 },
+  { id:27, cat:'freelance', icon:'🎬', color:'linear-gradient(135deg,#ef444422,#f59e0b22)', name:'Video Editing', desc:'Edit YouTube videos, reels, and marketing content for creators and brands.', investment:'$500–$2,000', difficulty:'Medium', diffBadge:'badge-medium', profit:'$1K–$6K/mo', time:'2–4 weeks', profitPct:50 },
+  { id:28, cat:'freelance', icon:'📖', color:'linear-gradient(135deg,#10b98122,#06b6d422)', name:'Content Writing', desc:'Write blogs, articles, and web copy for businesses. Zero investment required.', investment:'$0', difficulty:'Easy', diffBadge:'badge-easy', profit:'$500–$5K/mo', time:'1 week', profitPct:48 },
+  // Startup
+  { id:29, cat:'startup', icon:'🎓', color:'linear-gradient(135deg,#7c3aed22,#10b98122)', name:'EdTech Platform', desc:'Build an online education platform for specialized skills. Massive global demand.', investment:'$2,000–$15,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$3K–$30K/mo', time:'4–8 months', profitPct:78 },
+  { id:30, cat:'startup', icon:'💳', color:'linear-gradient(135deg,#10b98122,#1e3a8a22)', name:'FinTech App', desc:'Build financial tools, budgeting apps, or payment solutions for underserved markets.', investment:'$5,000–$50,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$100K/mo', time:'6–12 months', profitPct:88 },
+  { id:31, cat:'startup', icon:'💊', color:'linear-gradient(135deg,#ef444422,#10b98122)', name:'HealthTech Solution', desc:'Create apps for health monitoring, telemedicine, or wellness coaching.', investment:'$3,000–$20,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$4K–$50K/mo', time:'5–10 months', profitPct:82 },
+  { id:32, cat:'startup', icon:'🌾', color:'linear-gradient(135deg,#10b98122,#f59e0b22)', name:'AgriTech Platform', desc:'Technology solutions for farmers - market access, weather, crop management.', investment:'$2,000–$10,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$2K–$20K/mo', time:'4–8 months', profitPct:70 },
+  // Cyber
+  { id:33, cat:'cyber', icon:'🔐', color:'linear-gradient(135deg,#ef444422,#7c3aed22)', name:'Security Consulting', desc:'Help SMBs protect their digital assets. Extremely high hourly rates. Growing demand.', investment:'$500–$2,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$30K/mo', time:'1–2 months', profitPct:82 },
+  { id:34, cat:'cyber', icon:'🕵️', color:'linear-gradient(135deg,#7c3aed22,#ef444422)', name:'Ethical Hacking', desc:'Penetration testing and vulnerability assessment for businesses and governments.', investment:'$500–$3,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$40K/mo', time:'2–3 months', profitPct:85 },
+  { id:35, cat:'cyber', icon:'🛡️', color:'linear-gradient(135deg,#1e3a8a22,#ef444422)', name:'Security Audits', desc:'Conduct comprehensive security audits for compliance and risk management.', investment:'$1,000–$5,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$3K–$20K/mo', time:'2–3 months', profitPct:78 },
+  // Cloud
+  { id:36, cat:'cloud', icon:'☁️', color:'linear-gradient(135deg,#f59e0b22,#06b6d422)', name:'AWS Solutions', desc:'Provide AWS cloud architecture, migration, and optimization services to businesses.', investment:'$500–$2,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$35K/mo', time:'2–4 months', profitPct:82 },
+  { id:37, cat:'cloud', icon:'🔵', color:'linear-gradient(135deg,#06b6d422,#1e3a8a22)', name:'Azure Solutions', desc:'Microsoft Azure consulting for enterprise clients. Certification drives premium rates.', investment:'$500–$2,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$40K/mo', time:'2–4 months', profitPct:84 },
+  { id:38, cat:'cloud', icon:'🚀', color:'linear-gradient(135deg,#7c3aed22,#06b6d422)', name:'Cloud Migration', desc:'Help businesses migrate on-premise infrastructure to the cloud. High value contracts.', investment:'$1,000–$5,000', difficulty:'Hard', diffBadge:'badge-hard', profit:'$5K–$50K/mo', time:'3–5 months', profitPct:88 },
+];
+
+const steps = [
+  { n:1, title:'Research Market', icon:'🔍', desc:'Analyze market size, trends, competitors, and target demographics using tools like Google Trends and SEMrush.' },
+  { n:2, title:'Identify Customer Problem', icon:'💡', desc:'Survey potential customers, conduct interviews, and identify pain points your solution will solve.' },
+  { n:3, title:'Create Solution', icon:'⚡', desc:'Design your product or service architecture. Build an MVP (Minimum Viable Product) first to validate.' },
+  { n:4, title:'Build Product', icon:'🔨', desc:'Develop your product with core features only. Use no-code tools if available to accelerate launch.' },
+  { n:5, title:'Launch Website', icon:'🌐', desc:'Create a professional landing page with clear value proposition, pricing, and call-to-action.' },
+  { n:6, title:'Marketing Strategy', icon:'📣', desc:'Plan your content marketing, SEO, paid ads, and social media presence for customer acquisition.' },
+  { n:7, title:'Get Customers', icon:'👥', desc:'Execute your marketing plan. Leverage cold outreach, partnerships, and referral programs.' },
+  { n:8, title:'Scale Business', icon:'📈', desc:'Automate operations, hire team members, expand to new markets, and launch new product lines.' },
+];
+
+const metrics = [
+  { icon:'💰', value:'$124,500', label:'Total Revenue', change:'+23% this month', up:true },
+  { icon:'👥', value:'8,432', label:'Total Users', change:'+18% this month', up:true },
+  { icon:'🤝', value:'2,156', label:'Paying Customers', change:'+31% this month', up:true },
+  { icon:'📈', value:'24.8%', label:'Growth Rate', change:'+5.2% vs last month', up:true },
+  { icon:'💵', value:'$18,750', label:'Monthly Profit', change:'+28% this month', up:true },
+  { icon:'🎯', value:'3.7%', label:'Conversion Rate', change:'-0.2% this month', up:false },
+];
+
+// ============ RENDER IDEAS ============
+function renderIdeas(ideas) {
+  const grid = document.getElementById('ideasGrid');
+  document.getElementById('ideasCount').textContent = `(${ideas.length})`;
+  grid.innerHTML = ideas.map(i => `
+    <div class="idea-card" onclick="openModal(${i.id})" style="animation: fadeIn 0.4s ease forwards">
+      <div class="card-header">
+        <div class="card-icon-wrap" style="background:${i.color}">${i.icon}</div>
+        <div class="card-badges">
+          <span class="badge ${i.diffBadge}">${i.difficulty}</span>
+          <span class="badge badge-high">High Demand</span>
+        </div>
+      </div>
+      <div class="card-title">${i.name}</div>
+      <div class="card-desc">${i.desc}</div>
+      <div class="card-meta">
+        <div class="meta-item"><div class="meta-label">Investment</div><div class="meta-value">${i.investment}</div></div>
+        <div class="meta-item"><div class="meta-label">Time to Launch</div><div class="meta-value">${i.time}</div></div>
+        <div class="meta-item"><div class="meta-label">Profit Potential</div><div class="meta-value">${i.profit}</div></div>
+        <div class="meta-item"><div class="meta-label">Difficulty</div><div class="meta-value">${i.difficulty}</div></div>
+      </div>
+      <div class="card-footer">
+        <div class="profit-bar"><div class="profit-fill" style="width:${i.profitPct}%"></div></div>
+        <span class="profit-label">${i.profitPct}% profit potential</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ============ FILTER ============
+let currentCat = 'all';
+let currentSearch = '';
+
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilter();
+}
+
+function filterIdeas(q) {
+  currentSearch = q.toLowerCase();
+  applyFilter();
+}
+
+function applyFilter() {
+  let filtered = businessIdeas;
+  if (currentCat !== 'all') filtered = filtered.filter(i => i.cat === currentCat);
+  if (currentSearch) filtered = filtered.filter(i => i.name.toLowerCase().includes(currentSearch) || i.desc.toLowerCase().includes(currentSearch));
+  renderIdeas(filtered);
+}
+
+// ============ MODAL ============
+function openModal(id) {
+  const idea = businessIdeas.find(i => i.id === id);
+  if (!idea) return;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-badge">${idea.icon} ${idea.cat.toUpperCase()}</div>
+    <div class="modal-title">${idea.name}</div>
+    <div class="modal-desc">${idea.desc}</div>
+    <div class="modal-info-grid">
+      <div class="modal-info-item"><div class="modal-info-label">Investment Required</div><div class="modal-info-value">${idea.investment}</div></div>
+      <div class="modal-info-item"><div class="modal-info-label">Time to Launch</div><div class="modal-info-value">${idea.time}</div></div>
+      <div class="modal-info-item"><div class="modal-info-label">Profit Potential</div><div class="modal-info-value">${idea.profit}</div></div>
+      <div class="modal-info-item"><div class="modal-info-label">Difficulty Level</div><div class="modal-info-value">${idea.difficulty}</div></div>
+    </div>
+    <div class="modal-steps-title">🗺️ Implementation Roadmap</div>
+    <div class="modal-step-list">
+      ${steps.map(s => `<div class="modal-step"><div class="modal-step-num">${s.n}</div><div class="modal-step-content"><strong>${s.icon} ${s.title}</strong><span>${s.desc}</span></div></div>`).join('')}
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal()">← Back</button>
+      <button class="btn btn-primary" onclick="showPage('results');closeModal()">📊 View Analytics →</button>
+    </div>
+  `;
+  document.getElementById('ideaModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('ideaModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('ideaModal').addEventListener('click', function(e){ if(e.target === this) closeModal(); });
+
+// ============ STEPS RENDER ============
+function renderSteps() {
+  document.getElementById('stepsGrid').innerHTML = steps.map(s => `
+    <div class="step-card fade-in">
+      <div class="step-num">${s.n}</div>
+      <div class="step-title">${s.icon} ${s.title}</div>
+      <div class="step-desc">${s.desc}</div>
+    </div>
+  `).join('');
+}
+
+// ============ METRICS RENDER ============
+function renderMetrics() {
+  document.getElementById('metricsGrid').innerHTML = metrics.map(m => `
+    <div class="metric-card">
+      <div class="metric-icon">${m.icon}</div>
+      <div class="metric-value gradient-text">${m.value}</div>
+      <div class="metric-label">${m.label}</div>
+      <div class="metric-change ${m.up ? '' : 'down'}">${m.up ? '↑' : '↓'} ${m.change}</div>
+    </div>
+  `).join('');
+}
+
+// ============ CHARTS ============
+let chartsInit = false;
+function initCharts() {
+  if (chartsInit) return;
+  chartsInit = true;
+  Chart.defaults.color = '#8899bb';
+  Chart.defaults.borderColor = 'rgba(255,255,255,0.07)';
+  const months = ['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'];
+  const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+
+  // Revenue
+  new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Revenue ($)', data: [18000,21000,19500,24000,28000,32000,35000,42000,48000,55000,78000,124500],
+        borderColor: '#7c3aed', backgroundColor: 'rgba(124,58,237,0.15)',
+        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 4,
+        pointBackgroundColor: '#7c3aed',
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { color: 'rgba(255,255,255,0.05)' } } } }
+  });
+
+  // Customers
+  new Chart(document.getElementById('customerChart'), {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'New Customers', data: [120,145,132,168,195,210,245,312,380,420,580,850],
+        backgroundColor: 'rgba(6,182,212,0.7)', borderRadius: 6,
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { color: 'rgba(255,255,255,0.05)' } } } }
+  });
+
+  // Sales by category
+  new Chart(document.getElementById('salesChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['SaaS', 'AI Business', 'E-Commerce', 'Freelance', 'Web Dev', 'Other'],
+      datasets: [{
+        data: [28, 22, 18, 14, 10, 8],
+        backgroundColor: ['#7c3aed','#06b6d4','#10b981','#f59e0b','#2563eb','#8b5cf6'],
+        borderWidth: 0,
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom', labels: { padding: 16, usePointStyle: true } } }, cutout: '65%' }
+  });
+
+  // Conversion rate
+  new Chart(document.getElementById('conversionChart'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [{
+        label: 'Conversion %', data: [2.1,2.4,2.2,2.8,3.1,3.0,3.3,3.5,3.8,4.1,3.9,3.7],
+        borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)',
+        fill: true, tension: 0.4, borderWidth: 2, pointRadius: 4,
+        pointBackgroundColor: '#10b981',
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.05)' } }, x: { grid: { color: 'rgba(255,255,255,0.05)' } } } }
+  });
+}
+
+// ============ PAGE ROUTING ============
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('mainTopbar').style.display = 'block';
+  document.getElementById('chatWidget').style.display = 'block';
+  if (name === 'dash') {
+    document.getElementById('dashPage').classList.add('active');
+  } else if (name === 'results') {
+    document.getElementById('resultsPage').classList.add('active');
+    renderSteps(); renderMetrics();
+    setTimeout(initCharts, 100);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setNav(el) {
+  document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ============ LOGIN ============
+function doLogin() {
+  const email = document.getElementById('loginEmail')?.value;
+  if (document.getElementById('loginEmail') && !email) {
+    document.getElementById('emailError').style.display = 'block';
+    return;
+  }
+  const toast = document.getElementById('toast');
+  toast.classList.add('show');
+  setTimeout(() => { toast.classList.remove('show'); }, 3000);
+  setTimeout(() => { 
+    document.getElementById('loginPage').classList.remove('active');
+    showPage('dash');
+    renderIdeas(businessIdeas);
+  }, 800);
+}
+
+function switchToSignup() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('signupForm').style.display = 'block';
+  document.getElementById('formTitle').textContent = 'Create Account 🚀';
+  document.getElementById('formSubtitle').textContent = 'Join 50,000+ entrepreneurs today';
+}
+function switchToLogin() {
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('signupForm').style.display = 'none';
+  document.getElementById('formTitle').textContent = 'Welcome back 👋';
+  document.getElementById('formSubtitle').textContent = 'Sign in to access your business dashboard';
+}
+
+function togglePass() {
+  const p = document.getElementById('loginPass');
+  p.type = p.type === 'password' ? 'text' : 'password';
+  document.getElementById('passToggle').textContent = p.type === 'password' ? '👁️' : '🙈';
+}
+
+// ============ THEME ============
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') !== 'light';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeBtn').textContent = isDark ? '🌑' : '🌙';
+}
+
+// ============ FAQ ============
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ============ SCROLL ============
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
+
+// ============ CHAT ============
+const chatReplies = [
+  "Great question! Let me help you find the perfect business idea. What's your budget range?",
+  "For beginners, I recommend starting with Freelancing or Digital Marketing — low investment and quick returns!",
+  "AI business ideas are the hottest right now. Chatbot development can earn $2K-$20K/month!",
+  "SaaS is the most scalable model. Want me to show you top SaaS ideas with step-by-step guides?",
+  "Based on your interest, I'd recommend checking out our E-Commerce or Data Analytics sections!",
+];
+let chatIdx = 0;
+function toggleChat() {
+  document.getElementById('chatBox').classList.toggle('open');
+  document.querySelector('.chat-badge').style.display = 'none';
+}
+function sendChat() {
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
+  const msgs = document.getElementById('chatMsgs');
+  msgs.innerHTML += `<div class="chat-msg user">${msg}</div>`;
+  input.value = '';
+  setTimeout(() => {
+    msgs.innerHTML += `<div class="chat-msg bot">${chatReplies[chatIdx % chatReplies.length]}</div>`;
+    chatIdx++;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 600);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function chatEnter(e) { if (e.key === 'Enter') sendChat(); }
+
+// ============ INIT ============
+renderIdeas(businessIdeas);
+</script>
+</body>
+</html>
